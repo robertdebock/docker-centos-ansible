@@ -4,7 +4,9 @@ MAINTAINER Robert de Bock <robert@meinit.nl>
 
 LABEL Description="Base CentOS OpenSSH server image" Version="1.0"
 
-RUN yum -y install epel-release && \
+
+RUN yum -y install openssh openssh-server openssh-clients && \
+    yum -y install epel-release && \
     yum -y install ansible && \
     yum -y clean all
 
@@ -19,3 +21,5 @@ CMD test -f /etc/ssh/ssh_host_ecdsa_key || /usr/bin/ssh-keygen -q -t ecdsa -f /e
     /usr/bin/echo "Please save the printed private DSA key and login using:" && \
     /usr/bin/echo "\"ssh -i \${savedkey} root@\${ipaddress}\"" && \
     /usr/sbin/sshd -D
+
+EXPOSE 22
